@@ -125,7 +125,9 @@ def load_data():
         ).order_by("COUNT", ascending=False).to_pandas()
         
         session.close()
-        
+    
+        st.write("Full table of results:", main_df)
+    
         return main_df, daily_df, doc_type_stats
         
     except Exception as e:
