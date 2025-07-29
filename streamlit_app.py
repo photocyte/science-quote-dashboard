@@ -14,7 +14,7 @@ from snowflake.snowpark.functions import col, lit, when, count, avg, sum as sum_
 
 # Configure the app
 st.set_page_config(
-    page_title="Science Quote Analysis Dashboard",
+    page_title="Science Quote Analysis Dashboard - MVP",
     page_icon="🔬",
     layout="wide",
     initial_sidebar_state="expanded"
