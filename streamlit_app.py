@@ -14,7 +14,7 @@ from snowflake.snowpark.functions import col, lit, when, count, avg, sum as sum_
 
 # Configure the app
 st.set_page_config(
-    page_title="Science Quote Analysis Dashboard - MVP",
+    page_title="Science Quote Analysis Dashboard",
     page_icon="🔬",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -351,7 +351,7 @@ def main():
     """Main application function"""
     
     # Header
-    st.markdown('<h1 class="main-header">🔬 Science Quote Analysis Dashboard</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">🔬 Science Quote Analysis Dashboard - MVP</h1>', unsafe_allow_html=True)
     st.markdown("---")
     
     # Load data
