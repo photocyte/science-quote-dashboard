@@ -53,29 +53,31 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def get_snowflake_session():
-    """Get Snowflake session using environment variables"""
+    """Get Snowflake session using environment variables with PAT authentication"""
     try:
         # Get credentials from environment variables
         account = os.getenv('SNOWFLAKE_ACCOUNT')
         user = os.getenv('SNOWFLAKE_USER')
-        password = os.getenv('SNOWFLAKE_PASSWORD')
+        pat_token = os.getenv('SNOWFLAKE_PAT_TOKEN')
         warehouse = os.getenv('SNOWFLAKE_WAREHOUSE', 'COMPUTE_WH')
         database = os.getenv('SNOWFLAKE_DATABASE', 'SCIENCE_QUOTE_ANALYSIS')
         schema = os.getenv('SNOWFLAKE_SCHEMA', 'PROCESSED_DOCUMENTS')
         
-        if not all([account, user, password]):
-            st.error("Missing Snowflake credentials. Please set SNOWFLAKE_ACCOUNT, SNOWFLAKE_USER, and SNOWFLAKE_PASSWORD environment variables.")
+        if not all([account, user, pat_token]):
+            st.error("Missing Snowflake credentials. Please set SNOWFLAKE_ACCOUNT, SNOWFLAKE_USER, and SNOWFLAKE_PAT_TOKEN environment variables.")
             return None
         
-        # Create Snowpark session
-        session = Session.builder.configs({
+        # Create Snowpark session with PAT authentication
+        configs = {
             "account": account,
             "user": user,
-            "password": password,
+            "password": pat_token,  # PAT is used as password replacement
             "warehouse": warehouse,
             "database": database,
             "schema": schema
-        }).create()
+        }
+        
+        session = Session.builder.configs(configs).create()
         
         return session
         
@@ -89,7 +91,7 @@ def load_data():
     
     session = get_snowflake_session()
     if session is None:
-        st.error("Cannot connect to Snowflake. Please check your credentials.")
+        st.error("Cannot connect to Snowflake. Please check your PAT token and credentials.")
         return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
     
     try:
